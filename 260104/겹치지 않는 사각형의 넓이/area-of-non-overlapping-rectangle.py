@@ -1,0 +1,16 @@
+cube = {}
+
+for _ in range(2):
+    x1, y1, x2, y2 = map(int, input().split())
+
+    for i in range(x1, x2):
+        for j in range(y1, y2):
+            cube[(i, j)] = 1
+
+x1, y1, x2, y2 = map(int, input().split())
+
+for i in range(x1, x2):
+    for j in range(y1, y2):
+        cube[(i, j)] = 0
+
+print(sum(cube.values()))
