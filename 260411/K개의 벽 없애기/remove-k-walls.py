@@ -1,72 +1,51 @@
 from collections import deque
 
-n, k = map(int, input().split())
+def solve():
+    n, k = map(int, input().split())
 
-# grid = [list(map(int, input().split())) for _ in range(n)]
-grid = []
-walls = []
+    grid = [list(map(int, input().split())) for _ in range(n)]
 
-min_dist = float('inf')
+    min_dist = float('inf')
 
-for row in range(n):
-    line = list(map(int, input().split()))
+    r1, c1 = map(int, input().split())
+    r2, c2 = map(int, input().split())
 
-    for col in range(n):
-        if line[col] == 1:
-            walls.append((row, col))
+    start_r, start_c = r1 - 1, c1- 1
+    target_r, target_c = r2 -1, c2 - 1
+
+    # 3차원 배열
+    visited = [[[-1] * n for _ in range(n)] for _ in range(k + 1)]
+    visited[0][start_r][start_c] = 0
+
+    dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+
+    q = deque()
+    q.append((start_r, start_c, 0))
     
-    grid.append(line)
-
-r1, c1 = map(int, input().split())
-r2, c2 = map(int, input().split())
-q = deque()
-q.append([r1 - 1, c1 - 1, 0])
-
-def bfs():
-    global min_dist
-    que = q.copy()
-    visited = [[False] * n for _ in range(n)]
-    visited[r1 - 1][c1 - 1] = True
-
-    while que:
-        row, col, dist = que.popleft()
-
-        for dr, dc in [(0, 1), (1, 0), (-1, 0), (0, -1)]:
+    while q:
+        row, col, w = q.popleft()
+        
+        for dr, dc in dirs:
             nr = row + dr
             nc = col + dc
 
-            if 0 <= nr < n and 0 <= nc < n and not visited[nr][nc] and grid[nr][nc] == 0:
-                
-                if nr == r2 -1 and nc == c2 - 1:
-                    min_dist = min(min_dist, dist + 1)
-                
-                que.append((nr, nc, dist + 1))
-                visited[nr][nc] = True
+            if 0 <= nr < n and 0 <= nc < n:
+                if grid[nr][nc] == 0 and visited[w][nr][nc] == -1:
+                    q.append((nr, nc, w))
+                    visited[w][nr][nc] = visited[w][row][col] + 1
 
+                    if nr == target_r and nc == target_c:
+                        return visited[w][nr][nc]
+                    
+                elif grid[nr][nc] == 1 and w < k and visited[w + 1][nr][nc] == -1:
+                    q.append((nr, nc, w + 1))
+                    visited[w + 1][nr][nc] = visited[w][row][col] + 1
 
+                    if nr == target_r and nc == target_c:
+                        return visited[w + 1][nr][nc]
+                    
+                else: continue
 
-def backtrack(idx, cnt):
-    
-    if cnt == k:
-        bfs()
-        return
-    
-    if idx == len(walls):
-        return
-    
-    r, c = walls[idx]
-    grid[r][c] = 0
+    return -1
 
-    backtrack(idx + 1, cnt + 1)
-
-    grid[r][c] = 1
-    
-    backtrack(idx + 1, cnt)
-
-
-backtrack(0, 0)
-
-if min_dist == float('inf'):
-    print(-1)
-else:
-    print(min_dist)
+print(solve())
