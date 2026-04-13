@@ -20,6 +20,8 @@ def solve():
             elif line[col] == 2:
                 starts.append((row, col, 0))
                 visited[row][col] = True
+            else:
+                rotten_mandarin[row][col] = -2
 
     while starts:
         row, col, cnt = starts.popleft()
@@ -32,11 +34,6 @@ def solve():
                 starts.append((nr, nc, cnt + 1))
                 rotten_mandarin[nr][nc] = cnt + 1
                 visited[nr][nc] = True
-
-    for row in range(n):
-        for col in range(n):
-            if grid[row][col] == 1 and rotten_mandarin[row][col] == 0:
-                rotten_mandarin[row][col] = -2
 
     return rotten_mandarin
 
