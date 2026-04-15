@@ -2,7 +2,7 @@ N = int(input())
 
 # Please write your code here.
 
-fibo = [-1] * 45
+fibo = [-1] * 46
 
 fibo[0] = fibo[1] = 1
 
