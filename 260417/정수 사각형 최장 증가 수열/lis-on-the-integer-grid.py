@@ -26,15 +26,15 @@ def bfs(row, col):
             nc = c + dc
 
 
-            if 0 <= nr < n and 0 <= nc < n:
+            if 0 <= nr < n and 0 <= nc < n and grid[nr][nc] > grid[r][c]:
                 # 만약 탐색하려는 memo[nr][nc]의 값이 이미 계산되어 있다면
-                # if memo[nr][nc] != -1:
-                #     # 그 값을 가져와서 바로 적용
-                #     memo[row][col] = max(memo[r][c], cnt + memo[nr][nc])
-                #     continue
+                if memo[nr][nc] != -1 :
+                    # 그 값을 가져와서 바로 적용
+                    memo[row][col] = memo[nr][nc] + cnt
+                    continue
                 
                 # 처음 가보는 길이라면
-                if not visited[nr][nc] and grid[nr][nc] > grid[r][c]:
+                if not visited[nr][nc] :
                     visited[nr][nc] = True
                     q.append((nr, nc, cnt + 1))
     
