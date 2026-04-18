@@ -36,24 +36,12 @@ def init(lower):
         else:
             break
 
+def dp(lower):
 
-
-
-
-def dp(lower, row, col):
-
-    for dr, dc in [(1, 0), (0, 1)]:
-        nr = row + dr
-        nc = col + dc
-
-        if 0 <= nr < n and 0 <= nc < n and grid[nr][nc] >= lower:
-
-            memo[nr][nc] = max(grid[nr][nc], min(memo[nr - 1][nc], memo[nr][nc - 1], memo[nr][nc]))
-
-            dp(lower, nr, nc)
-
-
-
+    for i in range(1, n):
+        for j in range(1, n):
+            if grid[i][j] >= lower:
+                memo[i][j] = max(grid[i][j], min(memo[i-1][j], memo[i][j-1]))
 
 for lower in nums:
     if lower > start:
@@ -61,7 +49,7 @@ for lower in nums:
     init(lower)
     
 
-    dp(lower, 0, 0)
+    dp(lower)
 
     if memo[n-1][n-1] != float('inf'):
         ans = min(ans, memo[n-1][n-1] - lower)
