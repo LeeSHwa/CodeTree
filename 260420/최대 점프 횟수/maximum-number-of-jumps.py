@@ -10,11 +10,13 @@ def solve():
 
     for i in range(1, n):
         
+        dp[i] = 0
+
         for j in range(i):
             if j + nums[j] >= i:
                 dp[i] = max(dp[i], dp[j] + 1)
 
-        if dp[i] == 0 and nums[i] == 0:
+        if dp[i] == 0:
             break
 
     # print(dp)
