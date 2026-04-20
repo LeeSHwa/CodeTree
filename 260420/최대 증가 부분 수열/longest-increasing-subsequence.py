@@ -2,14 +2,14 @@ n = int(input())
 
 nums = list(map(int, input().split()))
 
-memo = [-1] * n
+memo = [0] * n
 memo[0] = 1
 
 def dp(idx):
     
     num = nums[idx]
 
-    max_len = -1
+    max_len = 0
 
     for i in range(idx):
         if nums[i] < num:
