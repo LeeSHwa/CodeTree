@@ -7,8 +7,9 @@ def solve():
 
     dp = [float('inf')] * (m + 1)
 
-    for i in coins:
-        dp[i] = 1
+    for coin in coins:
+        if m > coin:
+            dp[coin] = 1
 
     for i in range(1, m + 1):
 
